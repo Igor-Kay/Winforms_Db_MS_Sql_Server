@@ -44,5 +44,16 @@ namespace Winforms_Db_MS_Sql_Server.Properties {
                 return ((string)(this["IgorCRM_project_managerConnectionString"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=DBSRV\\DUB2023;Initial Catalog=Igors_project_data_base;Integrated Secu" +
+            "rity=True")]
+        public string Igors_project_data_baseConnectionString {
+            get {
+                return ((string)(this["Igors_project_data_baseConnectionString"]));
+            }
+        }
     }
 }

@@ -71,7 +71,9 @@
     <Reference Include="Microsoft.IdentityModel.Tokens, Version=6.24.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.IdentityModel.Tokens.6.24.0\lib\net472\Microsoft.IdentityModel.Tokens.dll</HintPath>
     </Reference>
-    <Reference Include="System" />
+    <Reference Include="System">
+      <HintPath>..\..\..\..\..\..\Program Files (x86)\Reference Assemblies\Microsoft\Framework\.NETFramework\v4.7.2\System.dll</HintPath>
+    </Reference>
     <Reference Include="System.Buffers, Version=4.0.3.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Buffers.4.5.1\lib\net461\System.Buffers.dll</HintPath>
     </Reference>
@@ -182,33 +184,31 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Classes\DataBase.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="Classes\User.cs" />
+    <Compile Include="Forms\Form1.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
+    <Compile Include="Forms\Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\Auth.cs">
+    <Compile Include="Forms\Login.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\Auth.Designer.cs">
-      <DependentUpon>Auth.cs</DependentUpon>
+    <Compile Include="Forms\Login.Designer.cs">
+      <DependentUpon>Login.cs</DependentUpon>
     </Compile>
-    <Compile Include="IgorCRM_project_managerDataSet.cs">
-      <DependentUpon>IgorCRM_project_managerDataSet.xsd</DependentUpon>
-    </Compile>
-    <Compile Include="IgorCRM_project_managerDataSet.Designer.cs">
+    <Compile Include="Igors_project_data_baseDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>IgorCRM_project_managerDataSet.xsd</DependentUpon>
+      <DependentUpon>Igors_project_data_baseDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="Form1.resx">
+    <EmbeddedResource Include="Forms\Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\Auth.resx">
-      <DependentUpon>Auth.cs</DependentUpon>
+    <EmbeddedResource Include="Forms\Login.resx">
+      <DependentUpon>Login.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -219,16 +219,16 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="IgorCRM_project_managerDataSet.xsc">
-      <DependentUpon>IgorCRM_project_managerDataSet.xsd</DependentUpon>
+    <None Include="Igors_project_data_baseDataSet.xsc">
+      <DependentUpon>Igors_project_data_baseDataSet.xsd</DependentUpon>
     </None>
-    <None Include="IgorCRM_project_managerDataSet.xsd">
+    <None Include="Igors_project_data_baseDataSet.xsd">
       <Generator>MSDataSetGenerator</Generator>
-      <LastGenOutput>IgorCRM_project_managerDataSet.Designer.cs</LastGenOutput>
+      <LastGenOutput>Igors_project_data_baseDataSet.Designer.cs</LastGenOutput>
       <SubType>Designer</SubType>
     </None>
-    <None Include="IgorCRM_project_managerDataSet.xss">
-      <DependentUpon>IgorCRM_project_managerDataSet.xsd</DependentUpon>
+    <None Include="Igors_project_data_baseDataSet.xss">
+      <DependentUpon>Igors_project_data_baseDataSet.xsd</DependentUpon>
     </None>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

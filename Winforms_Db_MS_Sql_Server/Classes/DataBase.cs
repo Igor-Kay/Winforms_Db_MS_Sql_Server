@@ -1,5 +1,4 @@
 ﻿using System.Data;
-using System;
 using System.Data.SqlClient;
 using System.Threading.Tasks;
 
@@ -7,72 +6,76 @@ namespace Winforms_Db_MS_Sql_Server.Classes
 {
     public class DataBase
     {
-        
-            /// <summary>
-            /// Объявление строки подключения с БД
-            /// </summary>
-            SqlConnection sqlConnection = new SqlConnection(@"Server=DBSRV\DUB2023;Database=IgorCRM_project_manager;Trusted_Connection=true;MultipleActiveResultSets=true;TrustServerCertificate=true;encrypt=false");
-            /// <summary>
-            /// Метод для открытия соединения с БД
-            /// </summary>
-            /// 
-            public void OpenConnection()
+        private readonly SqlConnection sqlConnection = new SqlConnection(@"Server=DBSRV\DUB2023;Database=Igors_project_data_base;Trusted_Connection=true;MultipleActiveResultSets=true;TrustServerCertificate=true;encrypt=false");
+
+        public DataBase() { }
+
+        public void OpenConnection()
+        {
+            if (sqlConnection.State == ConnectionState.Closed)
             {
-                // если состояние строки закрыто, то открываем
-                if (sqlConnection.State == System.Data.ConnectionState.Closed)
-                {
-                    sqlConnection.Open();
-                }
-            }
-            /// <summary>
-            /// Метод для закрытия соединения с БД, обратный методу выше
-            /// </summary>
-            public void CloseConnection()
-            {
-                if (sqlConnection.State == System.Data.ConnectionState.Open)
-                {
-                    sqlConnection.Close();
-                }
-            }
-            /// <summary>
-            /// Метод, возвращающий строку подключения
-            /// </summary>
-            /// <returns></returns>
-            public SqlConnection GetConnection()
-            {
-                return sqlConnection;
-            }
-            /// <summary>
-            /// Метод для обработки запросов типа Select
-            /// </summary>
-            /// <param name="s"></param>
-            /// <returns></returns>
-            public DataTable SqlSelect(string s)
-            {
-                SqlCommand command = new SqlCommand(s); // создаем команду с запросом
-                command.Connection = GetConnection();   // открываем соединение с БД
-                SqlDataAdapter adapter = new SqlDataAdapter(command);   // адаптируем данные
-                DataTable table = new DataTable();      // создаем таблицу
-                adapter.Fill(table);    // через адаптер заполняем ее данными
-                return table;           // возвращаем таблицу
-            }
-            /// <summary>
-            /// Метод для обработки запросов типа Insert
-            /// </summary>
-            /// <param name="querystring"></param>
-            /// <returns></returns>
-            public SqlCommand SqlInsert(string querystring)
-            {
-                OpenConnection();   // открыли соединение
-                SqlCommand command = new SqlCommand(querystring); //передали команду
-                command.Connection = GetConnection();   //передали строку подключения
-                command.ExecuteNonQuery();  // просто выполняет sql-выражение и возвращает количество измененных записей.
-                                            // Подходит для sql-выражений INSERT, UPDATE, DELETE, CREATE.
-                CloseConnection();      // закрыли соединение
-                return command;         // вернули команду
+                sqlConnection.Open();
             }
         }
 
-    
+        public void CloseConnection()
+        {
+            if (sqlConnection.State == ConnectionState.Open)
+            {
+                sqlConnection.Close();
+            }
+        }
 
+        public SqlConnection GetConnection()
+        {
+            return sqlConnection;
+        }
+
+        public DataTable SqlSelect(string query)
+        {
+            OpenConnection();
+            using (SqlCommand command = new SqlCommand(query, GetConnection()))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable table = new DataTable();
+                adapter.Fill(table);
+                var g = table;
+                return table;
+            }
+        }
+
+        public async Task<DataTable> SqlSelectAsync(string query)
+        {
+            OpenConnection();
+            using (SqlCommand command = new SqlCommand(query, GetConnection()))
+            {
+                SqlDataAdapter adapter = new SqlDataAdapter(command);
+                DataTable table = new DataTable();
+                adapter.Fill(table);
+                return table;
+            }
+        }
+
+        public SqlCommand SqlInsert(string query)
+        {
+            OpenConnection();
+            using (SqlCommand command = new SqlCommand(query, GetConnection()))
+            {
+                command.ExecuteNonQuery();
+            }
+            CloseConnection();
+            return new SqlCommand();
+        }
+
+        public async Task<SqlCommand> SqlInsertAsync(string query)
+        {
+            OpenConnection();
+            using (SqlCommand command = new SqlCommand(query, GetConnection()))
+            {
+                await command.ExecuteNonQueryAsync();
+            }
+            CloseConnection();
+            return new SqlCommand();
+        }
+    }
 }

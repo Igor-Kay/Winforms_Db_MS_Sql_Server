@@ -11,21 +11,13 @@ using Winforms_Db_MS_Sql_Server.Classes;
 
 namespace Winforms_Db_MS_Sql_Server.Forms
 {
-    public partial class Auth : Form
+    public partial class Login : Form
     {
-        public Auth()
+        private DataBase dataBase;
+        public Login(DataBase db)
         {
             InitializeComponent();
-        }
-
-        private void Auth_Load(object sender, EventArgs e)
-        {
-
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
-        {
-
+            dataBase = db;
         }
 
         private void label1_Click(object sender, EventArgs e)
@@ -35,23 +27,22 @@ namespace Winforms_Db_MS_Sql_Server.Forms
 
         private void button1_Click(object sender, EventArgs e)
         {
-            DataBase dataBase = new DataBase();
             string email = textBox1.Text;
             string password = textBox2.Text;
-            
             if (string.IsNullOrWhiteSpace(email) || string.IsNullOrWhiteSpace(password))
             {
                 MessageBox.Show("Вы не ввели почту или пароль", "Ошибка ввода", MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
             else
             {
-                if (dataBase.SqlSelect("select * from [dbo].[Tasks] where Deadline = '" + email + "' and UserPassword = '" + password + "'").Rows.Count > 0)
+                if (dataBase.SqlSelect($"select * from [dbo].[User] where Email  =  '{email}' or Login  = '{email}' and Password = '{password}'").Rows.Count > 0)
                 {
-                    DataTable dt = dataBase.SqlSelect($"select [Deadline] from [dbo].[Tasks] where [Salary] = '" + email + "'");
+                    DataTable dt = dataBase.SqlSelect($"select [RoleID] from [dbo].[User] where [Login] = '" + email + "'");
                     int role = Convert.ToInt32(dt.Rows[0][0]);
                     if (role == 1)
                     {
                         MessageBox.Show("Administrator", "Successfully", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
                     }
                     else if (role == 2)
                     {
@@ -65,6 +56,8 @@ namespace Winforms_Db_MS_Sql_Server.Forms
                     {
                         MessageBox.Show("Error", "Successfully", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
+                    Forms.Form1 form1 = new Forms.Form1(dataBase);
+                    form1.Show();
                 }
                 else
                 {
@@ -72,6 +65,11 @@ namespace Winforms_Db_MS_Sql_Server.Forms
                 }
 
             }
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+
         }
     }
 }
